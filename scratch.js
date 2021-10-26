@@ -11,3 +11,5 @@ app.use("/static", express.static("public"))
 // const variable = EXPRESSION ? TRUE : FALSE
 const five = 5 < 10 ? 5 : null
 
+/////////////////////////////
+// In the terminal, to switch branches: "git checkout master"
