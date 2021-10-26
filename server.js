@@ -10,6 +10,9 @@ const path = require("path") // Helper functions for file paths
 // * const Fruit = require("./models/fruit") // Added after fruit.js is created...
 // ....change to controllers/fruit.js
 const FruitsRouter = require("./controllers/fruit")
+const UserRouter = require("./controllers/user") // Added after "controllers/user.js" is setup
+const session = require("express-session") // Session middleware
+const MongoStore = require("connect-mongo") // Save sessions in mongo
 
 
 // ************* MOVED OVER TO CONNECTION.JS ********************
@@ -69,7 +72,6 @@ const liquid = require("liquid-express-views")
 // Construct an absolute path to our views folder
 const viewsFolder = path.resolve(__dirname, "views/")
 
-
 // Log to see the value of viewsFolder
 // console.log(viewsFolder)
 
@@ -97,15 +99,29 @@ app.use(express.urlencoded({extended: true}))
 // setup our public folder to serve files statically
 app.use(express.static("public"))
 
+// Middleware to create sessions (req.session)
+app.use(session({
+    secret: process.env.SECRET,
+    store: MongoStore.create({mongoUrl: process.env.DATABASE_URL}),
+    resave: false,
+    saveUnitiatialized: true
+}))
+
 ////////////////////////////////////////
 // Routes
 /////////////////////////////////////////
+// app.get("/", (req, res) => {
+//     res.send("your server is running... better catch it")
+// })
 app.get("/", (req, res) => {
-    res.send("your server is running... better catch it")
+    res.render("index.liquid")
 })
 
-// Register Fruits Router after creating the controllers/fruit
+// Register Fruits Router...after creating the "controllers/fruit.js"
 app.use("/fruits", FruitsRouter)
+
+// Register User Router...after creating the "controllers/user.js"
+app.use("/user", UserRouter)
 
 // ************* MOVED OVER TO CONTROLLERS/FRUIT.JS ********************
 
@@ -260,6 +276,8 @@ app.use("/fruits", FruitsRouter)
 // })
 
 // ********************************************************************************
+
+
 
 /////////////////////////////////////////////
 // Setup Server Listener

@@ -3,6 +3,7 @@
 
 <div>
     <a href="/fruits/new"><button>Create a New Fruit</button></a> <!-- Place button on top of loop -->
+    <a href="/user/logout"><button>Logout</button></a>
     {% for fruit in fruits %}
         <article>
         <a href="/fruits/{{ fruit._id }}"> <!-- Use "_id" and NOT "index" -->
@@ -13,7 +14,6 @@
                 {% else %}
                     Not Ripe
                 {% endif %}
-
             </h2>
         </a>
 </article>

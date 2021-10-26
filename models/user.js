@@ -14,20 +14,18 @@ const {Schema, model} = mongoose
 // const model = mongoose.Model
 
 // Make a fruits schema
-const fruitSchema = new Schema({
-    name: String,
-    color: String,
-    readyToEat: Boolean,
-    username: String
+const userSchema = new Schema({
+    username: {type: String, required: true, unique: true},
+    password: {type: String, required: true}
 })
 
 // Make a Fruit Model
-const Fruit = model("Fruit", fruitSchema)
+const User = model("User", userSchema)
 
 // Log the model to make sure it exists
 // console.log(Fruit)
 
 ////////////////////////////
-// Export the fruit model
+// Export the User model
 ////////////////////////////
-module.exports = Fruit
+module.exports = User
